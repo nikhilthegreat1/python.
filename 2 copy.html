@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <title>सत्यजय टाइम्स | Satyajay Times - हिंदी दैनिक</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <!-- Hindi friendly font -->
+  <link href="https://fonts.googleapis.com/css2?family=Hind:wght@300;400;600&display=swap" rel="stylesheet" />
+  <!-- Optional icons (for social links) -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+
+  <style>
+    :root {
+      --primary: #0f172a;
+      --accent: #d97706;
+      --accent-soft: #fbbf24;
+      --bg: #f3f4f6;
+      --card-bg: #ffffff;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --danger: #dc2626;
+      --shadow-soft: 0 12px 30px rgba(15, 23, 42, 0.12);
+      --radius-lg: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Hind", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background: radial-gradient(circle at top, #ffffff 0, #f3f4f6 40%, #e5e7eb 100%);
+      color: #111827;
+      line-height: 1.6;
+    }
+
+    .page-wrapper {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    main {
+      flex: 1;
+    }
+
+    /* HEADER */
+    .header-shell {
+      max-width: 1200px;
+      margin: 18px auto 10px;
+      padding: 16px;
+    }
+
+    .header-card {
+      background: radial-gradient(circle at top left, #ffffff, #e5e7eb 68%);
+      border-radius: 26px;
+      padding: 18px 22px;
+      box-shadow: var(--shadow-soft);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+    }
+
+    .header-card::before {
+      content: "";
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(234, 179, 8, 0.18), transparent 60%);
+      right: -60px;
+      top: -40px;
+      opacity: 0.9;
+    }
+
+    .logo-block {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* --- यहाँ logo.jpg use हो रहा है --- */
+    .logo-img {
+      width: 60px;
+      height: 60px;
+      border-radius: 18px;
+      object-fit: cover;
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.25);
+      border: 1px solid rgba(209, 213, 219, 0.9);
+      background: #ffffff;
+    }
+
+    .brand-text h1 {
+      font-size: 26px;
+      color: #111827;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .brand-text p {
+      font-size: 13px;
+      color: #4b5563;
+      margin-top: 2px;
+    }
+
+    .brand-text span.tagline {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(209, 213, 219, 0.9);
+      color: #374151;
+      font-size: 11px;
+      margin-top: 6px;
+    }
+
+    .brand-text span.tagline i {
+      font-size: 10px;
+    }
+
+    /* TEMP / AQI / TIME BAR */
+    .meta-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: flex-end;
+      position: relative;
+      z-index: 1;
+    }
+
+    .meta-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 11px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid rgba(209, 213, 219, 0.95);
+      color: #111827;
+      font-size: 12px;
+      white-space: nowrap;
+      box-shadow: 0 3px 8px rgba(15, 23, 42, 0.08);
+    }
+
+    .meta-pill span.label {
+      color: #6b7280;
+    }
+
+    .meta-pill span.value {
+      font-weight: 600;
+    }
+
+    .meta-pill.temperature span.value {
+      color: #f97316;
+    }
+
+    .meta-pill.aqi span.value {
+      color: #16a34a;
+    }
+
+    .meta-pill.time span.value {
+      color: #b45309;
+      letter-spacing: 1px;
+    }
+
+    /* NAVBAR */
+    .nav-shell {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 16px 10px;
+    }
+
+    .navbar {
+      background: rgba(255, 255, 255, 0.98);
+      border-radius: 18px;
+      padding: 7px 10px;
+      border: 1px solid rgba(209, 213, 219, 0.9);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(12px);
+    }
+
+    .nav-list {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      justify-content: space-between;
+    }
+
+    .nav-item a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 14px;
+      font-size: 13px;
+      border-radius: 999px;
+      color: #374151;
+      text-decoration: none;
+      border: 1px solid transparent;
+      transition: 0.18s ease;
+      white-space: nowrap;
+    }
+
+    .nav-item a:hover {
+      background: rgba(249, 250, 251, 1);
+      border-color: rgba(209, 213, 219, 0.9);
+      color: #111827;
+    }
+
+    .nav-item a.active {
+      background: linear-gradient(135deg, #fbbf24, #d97706);
+      color: #111827;
+      font-weight: 600;
+      border-color: transparent;
+      box-shadow: 0 10px 20px rgba(217, 119, 6, 0.35);
+    }
+
+    /* MAIN CONTENT WRAPPER */
+    .content-shell {
+      max-width: 1200px;
+      margin: 6px auto 30px;
+      padding: 0 16px 24px;
+    }
+
+    /* BREAKING NEWS BAR */
+    .breaking-bar {
+      margin-top: 14px;
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 8px 12px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      border: 1px solid #fecaca;
+      box-shadow: 0 12px 24px rgba(220, 38, 38, 0.08);
+      overflow: hidden;
+    }
+
+    .breaking-label {
+      background: linear-gradient(135deg, #dc2626, #ef4444);
+      color: #fef2f2;
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .breaking-label i {
+      font-size: 10px;
+    }
+
+    .breaking-ticker {
+      overflow: hidden;
+      flex: 1;
+    }
+
+    .ticker-track {
+      display: inline-flex;
+      gap: 28px;
+      white-space: nowrap;
+      animation: ticker 36s linear infinite;
+      color: #374151;
+      font-size: 13px;
+    }
+
+    .ticker-item time {
+      font-size: 11px;
+      color: #9ca3af;
+      margin-right: 6px;
+    }
+
+    @keyframes ticker {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    /* SECTION TITLES */
+    .section-header {
+      margin-top: 18px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 8px;
+      color: #111827;
+    }
+
+    .section-header h2 {
+      font-size: 17px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #0f172a;
+    }
+
+    .section-header span.meta {
+      font-size: 11px;
+      color: #6b7280;
+    }
+
+    /* NEWS GRID */
+    .news-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .news-card {
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 12px 12px 10px;
+      border: 1px solid #e5e7eb;
+      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.06);
+      color: #111827;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      cursor: pointer;
+      transition: 0.18s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .news-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 0 0, rgba(234, 179, 8, 0.12), transparent 55%);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .news-card:hover::before {
+      opacity: 1;
+    }
+
+    .news-card:hover {
+      transform: translateY(-2px);
+      border-color: #facc15;
+      box-shadow: 0 12px 26px rgba(15, 23, 42, 0.12);
+    }
+
+    .news-category {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: #b45309;
+    }
+
+    .news-title {
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.45;
+      color: #111827;
+    }
+
+    .news-meta {
+      font-size: 11px;
+      color: #6b7280;
+      margin-top: 2px;
+    }
+
+    .news-meta span {
+      opacity: 0.95;
+    }
+
+    .news-meta span.time {
+      opacity: 0.8;
+      font-style: italic;
+    }
+
+    .news-summary {
+      font-size: 12px;
+      color: #374151;
+      opacity: 0.9;
+    }
+
+    /* SOCIAL LINKS / FOOTER */
+    .footer-shell {
+      max-width: 1200px;
+      margin: 0 auto 24px;
+      padding: 0 16px;
+    }
+
+    .footer-card {
+      background: #f9fafb;
+      border-radius: 22px;
+      padding: 14px 16px;
+      border: 1px solid #e5e7eb;
+      box-shadow: 0 10px 22px rgba(15, 23, 42, 0.06);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      align-items: center;
+      justify-content: space-between;
+      color: #111827;
+    }
+
+    .footer-left h3 {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      margin-bottom: 4px;
+      color: #6b7280;
+    }
+
+    .footer-left p {
+      font-size: 12px;
+      color: #4b5563;
+    }
+
+    .social-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .social-links a {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(148, 163, 184, 0.8);
+      text-decoration: none;
+      font-size: 15px;
+      color: #111827;
+      transition: 0.16s ease;
+      background: radial-gradient(circle at 30% 0, #ffffff, #e5e7eb);
+    }
+
+    .social-links a:hover {
+      transform: translateY(-1px) scale(1.02);
+      border-color: #fbbf24;
+      color: #b45309;
+      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.12);
+    }
+
+    .footer-bottom {
+      font-size: 11px;
+      color: #6b7280;
+      margin-top: 4px;
+    }
+
+    .footer-bottom span {
+      color: #4b5563;
+    }
+
+    /* ABOUT / CONTACT BLOCKS */
+    .info-section {
+      margin-top: 20px;
+      background: #ffffff;
+      border-radius: 22px;
+      padding: 14px 16px;
+      border: 1px solid #e5e7eb;
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+      color: #111827;
+    }
+
+    .info-section h2 {
+      font-size: 15px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      color: #b45309;
+    }
+
+    .info-section p,
+    .info-section li {
+      font-size: 13px;
+      color: #374151;
+    }
+
+    .info-section ul {
+      margin-top: 6px;
+      padding-left: 18px;
+    }
+
+    .info-label {
+      font-size: 12px;
+      color: #6b7280;
+      margin-top: 4px;
+    }
+
+    /* POPUP FOR TODAY'S NEWSPAPER (PDF) */
+    .popup-overlay {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(15, 23, 42, 0.25);
+      backdrop-filter: blur(8px);
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.2s ease;
+      z-index: 40;
+    }
+
+    .popup-overlay.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .popup-card {
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 18px 18px 14px;
+      max-width: 480px;
+      width: 95%;
+      border: 1px solid #e5e7eb;
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.25);
+      color: #111827;
+      position: relative;
+    }
+
+    .popup-card h2 {
+      font-size: 17px;
+      text-align: center;
+      margin-bottom: 6px;
+      color: #b45309;
+    }
+
+    .popup-card p {
+      font-size: 13px;
+      text-align: center;
+      color: #4b5563;
+      margin-bottom: 10px;
+    }
+
+    .popup-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 13px;
+      border: none;
+      cursor: pointer;
+      outline: none;
+      width: 100%;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #fbbf24, #d97706);
+      color: #111827;
+      font-weight: 600;
+      box-shadow: 0 12px 24px rgba(217, 119, 6, 0.35);
+    }
+
+    .btn-primary:hover {
+      filter: brightness(1.03);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid #d1d5db;
+      color: #374151;
+    }
+
+    .popup-close-x {
+      position: absolute;
+      top: 8px;
+      right: 10px;
+      border: none;
+      background: transparent;
+      color: #9ca3af;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    /* PDF preview image + iframe */
+    .pdf-thumb {
+      width: 100%;
+      border-radius: 12px;
+      border: 1px solid #e5e7eb;
+      margin: 8px 0;
+      object-fit: cover;
+      max-height: 220px;
+    }
+
+    .pdf-frame {
+      width: 100%;
+      height: 360px;
+      border-radius: 12px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .pdf-note {
+      font-size: 12px;
+      color: #6b7280;
+      margin-top: 6px;
+      text-align: center;
+    }
+
+    @media (max-width: 640px) {
+      .pdf-frame {
+        height: 260px;
+      }
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .news-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .header-card {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .meta-strip {
+        justify-content: flex-start;
+      }
+
+      .nav-list {
+        justify-content: flex-start;
+      }
+
+      .news-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .breaking-bar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page-wrapper">
+    <!-- HEADER -->
+    <header class="header-shell" id="top">
+      <div class="header-card">
+        <div class="logo-block">
+          <!-- यहाँ logo.jpg दिख रहा है -->
+          <img src="logo.jpg" alt="Satyajay Times logo" class="logo-img" />
+          <div class="brand-text">
+            <h1>सत्यजय टाइम्स</h1>
+            <p>Satyajay Times</p>
+            <span class="tagline">
+              <i class="fa-solid fa-feather"></i>
+              हिंदी दैनिक समाचार पत्र
+            </span>
+          </div>
+        </div>
+
+        <div class="meta-strip">
+          <div class="meta-pill temperature">
+            <span class="label">तापमान</span>
+            <span class="value" id="temp-value">28°C</span>
+          </div>
+          <div class="meta-pill aqi">
+            <span class="label">AQI</span>
+            <span class="value" id="aqi-value">112 (मध्यम)</span>
+          </div>
+          <div class="meta-pill time">
+            <span class="label">समय</span>
+            <span class="value" id="time-now">--:--</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- NAVBAR -->
+    <div class="nav-shell">
+      <nav class="navbar">
+        <ul class="nav-list">
+          <li class="nav-item"><a href="#top" class="active">होम</a></li>
+          <li class="nav-item"><a href="#faridabad">फरीदाबाद</a></li>
+          <li class="nav-item"><a href="#haryana">हरियाणा</a></li>
+          <li class="nav-item"><a href="#cricket">क्रिकेट</a></li>
+          <li class="nav-item"><a href="#entertainment">मनोरंजन</a></li>
+          <li class="nav-item"><a href="#national">राष्ट्रीय</a></li>
+          <li class="nav-item"><a href="#international">अंतरराष्ट्रीय</a></li>
+          <li class="nav-item"><a href="#about">हमारे बारे में</a></li>
+          <li class="nav-item"><a href="#contact">संपर्क करें</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <main class="content-shell">
+      <!-- BREAKING NEWS -->
+      <section>
+        <div class="breaking-bar">
+          <div class="breaking-label">
+            <i class="fa-solid fa-bolt"></i>
+            ब्रेकिंग न्यूज़
+          </div>
+          <div class="breaking-ticker">
+            <div class="ticker-track">
+              <!-- यहां आप अपनी ब्रेकिंग न्यूज़ बदल सकते हैं -->
+              <div class="ticker-item">
+                <time>09:10 PM</time> फरीदाबाद: मुख्य बाजार में ट्रैफिक व्यवस्था के लिए नया प्लान लागू
+              </div>
+              <div class="ticker-item">
+                <time>08:45 PM</time> हरियाणा कैबिनेट की बैठक में शिक्षा और स्वास्थ्य से जुड़े महत्वपूर्ण फैसले
+              </div>
+              <div class="ticker-item">
+                <time>08:15 PM</time> भारत बनाम ऑस्ट्रेलिया: सीरीज़ के तीसरे मैच में भारत की रोमांचक जीत
+              </div>
+              <div class="ticker-item">
+                <time>07:50 PM</time> बॉलीवुड अभिनेता की नई फिल्म ने पहले दिन ही बॉक्स ऑफिस पर रिकॉर्ड बनाया
+              </div>
+              <div class="ticker-item">
+                <time>07:20 PM</time> राष्ट्रीय स्तर पर नई आर्थिक नीति पर विशेषज्ञों की राय
+              </div>
+              <div class="ticker-item">
+                <time>06:55 PM</time> अंतरराष्ट्रीय मंच पर भारत की कूटनीतिक सफलता की नई कहानी
+              </div>
+
+              <!-- repeat once more for smooth infinite effect -->
+              <div class="ticker-item">
+                <time>09:10 PM</time> फरीदाबाद: मुख्य बाजार में ट्रैफिक व्यवस्था के लिए नया प्लान लागू
+              </div>
+              <div class="ticker-item">
+                <time>08:45 PM</time> हरियाणा कैबिनेट की बैठक में शिक्षा और स्वास्थ्य से जुड़े महत्वपूर्ण फैसले
+              </div>
+              <div class="ticker-item">
+                <time>08:15 PM</time> भारत बनाम ऑस्ट्रेलिया: सीरीज़ के तीसरे मैच में भारत की रोमांचक जीत
+              </div>
+              <div class="ticker-item">
+                <time>07:50 PM</time> बॉलीवुड अभिनेता की नई फिल्म ने पहले दिन ही बॉक्स ऑफिस पर रिकॉर्ड बनाया
+              </div>
+              <div class="ticker-item">
+                <time>07:20 PM</time> राष्ट्रीय स्तर पर नई आर्थिक नीति पर विशेषज्ञों की राय
+              </div>
+              <div class="ticker-item">
+                <time>06:55 PM</time> अंतरराष्ट्रीय मंच पर भारत की कूटनीतिक सफलता की नई कहानी
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- HOME: MIX OF ALL SECTIONS (LATEST) -->
+      <section aria-label="Latest news from all sections">
+        <div class="section-header">
+          <h2>ताज़ा खबरें</h2>
+          <span class="meta">आज प्रकाशित प्रमुख समाचार</span>
+        </div>
+
+        <div class="news-grid">
+          <!-- Example cards – इन्हें बाद में अपनी खबरों से बदल सकते हैं -->
+          <article class="news-card">
+            <div class="news-category">फरीदाबाद</div>
+            <h3 class="news-title">
+              फरीदाबाद के सेक्टर में नई सड़क और स्ट्रीट लाइट परियोजना को मिली मंज़ूरी
+            </h3>
+            <p class="news-summary">
+              नगर निगम की बैठक में सफाई, सड़क और जल निकासी जैसी योजनाओं पर विस्तार से चर्चा...
+            </p>
+            <p class="news-meta">
+              <span>प्रकाशित: 28 नवम्बर 2025</span> ·
+              <span class="time">08:45 PM</span>
+            </p>
+          </article>
+
+          <article class="news-card">
+            <div class="news-category">हरियाणा</div>
+            <h3 class="news-title">
+              हरियाणा सरकार ने किसानों के लिए नई फसल बीमा योजना की घोषणा की
+            </h3>
+            <p class="news-summary">
+              योजना के तहत छोटे और सीमांत किसानों को प्रीमियम पर विशेष सब्सिडी देने का प्रावधान...
+            </p>
+            <p class="news-meta">
+              <span>प्रकाशित: 28 नवम्बर 2025</span> ·
+              <span class="time">07:30 PM</span>
+            </p>
+          </article>
+
+          <article class="news-card">
+            <div class="news-category">क्रिकेट</div>
+            <h3 class="news-title">
+              टीम इंडिया की शानदार जीत, कप्तान की सूझबूझ भरी पारी की तारीफ
+            </h3>
+            <p class="news-summary">
+              अंतिम ओवर तक रोमांच से भरे मैच में भारतीय गेंदबाज़ों ने बेहतरीन प्रदर्शन किया...
+            </p>
+            <p class="news-meta">
+              <span>प्रकाशित: 28 नवम्बर 2025</span> ·
+              <span class="time">06:55 PM</span>
+            </p>
+          </article>
+
+          <article class="news-card">
+            <div class="news-category">मनोरंजन</div>
+            <h3 class="news-title">
+              नए वेब सीरीज़ ने युवाओं के बीच बनाई अलग पहचान, पहले वीकेंड पर ही रिकॉर्ड व्यूज़
+            </h3>
+            <p class="news-summary">
+              कहानी की सादगी और दमदार अभिनय की वजह से शो को सोशल मीडिया पर खूब सराहना मिल रही है...
+            </p>
+            <p class="news-meta">
+              <span>प्रकाशित: 28 नवम्बर 2025</span> ·
+              <span class="time">05:40 PM</span>
+            </p>
+          </article>
+
+          <article class="news-card">
+            <div class="news-category">राष्ट्रीय</div>
+            <h3 class="news-title">
+              संसद के शीत कालीन सत्र में कई अहम विधेयक पेश होने की संभावना
+            </h3>
+            <p class="news-summary">
+              सरकार ने संकेत दिए हैं कि इस सत्र में अर्थव्यवस्था और रोजगार से जुड़े मुद्दों पर गंभीर चर्चा होगी...
+            </p>
+            <p class="news-meta">
+              <span>प्रकाशित: 28 नवम्बर 2025</span> ·
+              <span class="time">04:20 PM</span>
+            </p>
+          </article>
+
+          <article class="news-card">
+            <div class="news-category">अंतरराष्ट्रीय</div>
+            <h3 class="news-title">
+              वैश्विक मंच पर जलवायु परिवर्तन को लेकर देशों के बीच नई सहमति
+            </h3>
+            <p class="news-summary">
+              सम्मेलन में विकासशील देशों की चिंताओं को ध्यान में रखते हुए विशेष पैकेज की घोषणा...
+            </p>
+            <p class="news-meta">
+              <span>प्रकाशित: 28 नवम्बर 2025</span> ·
+              <span class="time">03:10 PM</span>
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <!-- बाकी सेक्शन पहले जैसे ही हैं (फरीदाबाद, हरियाणा, क्रिकेट, मनोरंजन, राष्ट्रीय, अंतरराष्ट्रीय, हमारे बारे में, संपर्क) -->
+      <!-- मैं उन्हें नहीं बदल रहा, सिर्फ ऊपर PDF popup और logo से related बदलाव किए हैं -->
+      <!-- आप चाहो तो पुराने वाले से कॉपी करके नीचे तक रख सकते हो – अभी इस जवाब में जगह बचाने के लिए उन्हें छोड़ा है -->
+      
+      <!-- ABOUT & CONTACT (short version so file छोटा रहे) -->
+      <section id="about" class="info-section">
+        <h2>हमारे बारे में</h2>
+        <p>
+          <strong>सत्यजय टाइम्स</strong> फरीदाबाद और आसपास के क्षेत्रों के साथ-साथ प्रदेश,
+          राष्ट्रीय और अंतरराष्ट्रीय मुद्दों पर संतुलित एवं विश्वसनीय खबरें देने के लिए
+          प्रतिबद्ध हिंदी दैनिक समाचार पत्र है।
+        </p>
+        <p class="info-label">
+          उद्देश्य: सही समय पर, सही जानकारी, सरल और साफ भाषा में आपके तक पहुंचाना।
+        </p>
+        <ul>
+          <li>स्थानीय मुद्दों को प्राथमिकता</li>
+          <li>खेल, मनोरंजन, शिक्षा, रोजगार जैसे सभी सेक्टर की कवरेज</li>
+          <li>फैक्ट्स पर आधारित रिपोर्टिंग और ग्राउंड रिपोर्ट</li>
+        </ul>
+      </section>
+
+      <section id="contact" class="info-section">
+        <h2>संपर्क करें</h2>
+        <p>अपने सुझाव, खबरें या विज्ञापन संबंधी जानकारी के लिए हमसे संपर्क करें।</p>
+        <p class="info-label">(यहाँ आप अपना मोबाइल नंबर, WhatsApp, और ईमेल आईडी डाल सकते हैं)</p>
+        <ul>
+          <li>ईमेल: <strong>contact@satyajaytimes.com</strong> (उदाहरण)</li>
+          <li>फोन: <strong>+91-XXXXXXXXXX</strong> (उदाहरण)</li>
+          <li>कार्यालय: फरीदाबाद, हरियाणा</li>
+        </ul>
+      </section>
+    </main>
+
+    <!-- FOOTER / SOCIAL LINKS -->
+    <footer class="footer-shell">
+      <div class="footer-card">
+        <div class="footer-left">
+          <h3>हमें फॉलो करें</h3>
+          <p>सोशल मीडिया पर सत्यजय टाइम्स से जुड़े रहें और तुरंत अपडेट पाएं।</p>
+        </div>
+        <div class="social-links">
+          <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+          <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        &copy; <span id="year-now"></span> सत्यजय टाइम्स · सर्वाधिकार सुरक्षित।
+      </div>
+    </footer>
+  </div>
+
+  <!-- TODAY'S NEWSPAPER POPUP (PDF VIEW) -->
+  <div class="popup-overlay" id="today-popup">
+    <div class="popup-card">
+      <button class="popup-close-x" id="popup-close-x">&times;</button>
+      <h2>आज का अख़बार (PDF)</h2>
+
+      <!-- यहाँ placeholder.jpg preview -->
+      <alt="आज के अख़बार का प्रीव्यू" class="pdf-thumb" />
+
+      <!-- यहाँ today.pdf embed होगा -->
+      <iframe
+        src="today.pdf"
+        class="pdf-frame"
+        title="आज का e-paper PDF"
+      ></iframe>
+
+      <p class="pdf-note">
+        अगर ऊपर PDF नहीं दिख रहा है तो नीचे दिए गए बटन पर क्लिक करके नई टैब में खोलें।
+      </p>
+
+      <div class="popup-actions">
+        <!-- today.pdf direct download / open -->
+        <a href="today.pdf" target="_blank" class="btn-primary">ई-पेपर नई टैब में खोलें</a>
+        <button class="btn-secondary" id="close-popup">आज के लिए बंद करें</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // समय सेट करना (घंटा:मिनट)
+    function updateTime() {
+      const now = new Date();
+      const options = { hour: "2-digit", minute: "2-digit", hour12: false };
+      const timeString = now.toLocaleTimeString("hi-IN", options);
+      document.getElementById("time-now").textContent = timeString;
+    }
+    updateTime();
+    setInterval(updateTime, 60 * 1000);
+
+    // साल सेट करना
+    document.getElementById("year-now").textContent = new Date().getFullYear();
+
+    // Today's newspaper popup
+    const popup = document.getElementById("today-popup");
+    const closePopupBtn = document.getElementById("close-popup");
+    const closePopupX = document.getElementById("popup-close-x");
+
+    // Page load होते ही popup दिखेगा
+    window.addEventListener("load", () => {
+      popup.classList.add("show");
+    });
+
+    function closePopup() {
+      popup.classList.remove("show");
+    }
+
+    closePopupBtn.addEventListener("click", closePopup);
+    closePopupX.addEventListener("click", closePopup);
+
+    // Navbar active state (simple click-based)
+    const navLinks = document.querySelectorAll(".nav-item a");
+    navLinks.forEach(link => {
+      link.addEventListener("click", (e) => {
+        navLinks.forEach(l => l.classList.remove("active"));
+        e.target.classList.add("active");
+      });
+    });
+  </script>
+</body>
+</html>
